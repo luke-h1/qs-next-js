@@ -5,9 +5,10 @@ import PetCard from "@frontend/components/PetCard";
 import { PaginatedList } from "@frontend/types/pagination";
 import { Pet } from "@frontend/types/pet";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, Suspense, useEffect, useState } from "react";
+import styles from "./HomePage.module.scss";
 
-export default function Home() {
+function HomePageContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [pets, setPets] = useState<Pet[]>([]);
@@ -77,82 +78,72 @@ export default function Home() {
 
   return (
     <Layout>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "left",
-          width: "50%",
-          margin: "0 auto",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
+      <div className={styles.container}>
+        <div className={styles.info}>
           <p>Current page: {currentPage}</p>
           <p>Total results: {totalResults}</p>
           <p>Total pages: {totalPages}</p>
           <p>Page size: {params.pageSize}</p>
         </div>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>
-              Name:
-              <input
-                type="text"
-                name="name"
-                value={params.name}
-                onChange={handleInputChange}
-              />
-            </label>
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.formGroup}>
+            <label htmlFor="name">Name:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={params.name}
+              onChange={handleInputChange}
+            />
           </div>
-          <div>
-            <label>
-              Page:
-              <select
-                name="page"
-                value={params.page}
-                onChange={handleInputChange}
-              >
-                {[...Array(totalPages).keys()].map((i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {i + 1}
-                  </option>
-                ))}
-              </select>
-            </label>
+          <div className={styles.formGroup}>
+            <label htmlFor="page">Page:</label>
+            <select
+              id="page"
+              name="page"
+              value={params.page}
+              onChange={handleInputChange}
+            >
+              {[...Array(totalPages).keys()].map((i) => (
+                <option key={i + 1} value={i + 1}>
+                  {i + 1}
+                </option>
+              ))}
+            </select>
           </div>
-          <div>
-            <label>
-              Page Size:
-              <select
-                name="pageSize"
-                value={params.pageSize}
-                onChange={handleInputChange}
-              >
-                {[10, 20, 30, 40, 50].map((size) => (
-                  <option key={size} value={size}>
-                    {size}
-                  </option>
-                ))}
-              </select>
-            </label>
+          <div className={styles.formGroup}>
+            <label htmlFor="pageSize">Page Size:</label>
+            <select
+              id="pageSize"
+              name="pageSize"
+              value={params.pageSize}
+              onChange={handleInputChange}
+            >
+              {[10, 20, 30, 40, 50].map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
           </div>
-          <button type="submit">Search</button>
+          <button type="submit" className={styles.button}>
+            Search
+          </button>
         </form>
-        <div
-          style={{
-            marginTop: "10rem",
-          }}
-        >
-          <ul>
+        <div className={styles.results}>
+          <ul className={styles.petList}>
             {pets && pets.map((pet) => <PetCard key={pet.id} pet={pet} />)}
           </ul>
         </div>
       </div>
     </Layout>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomePageContent />
+    </Suspense>
   );
 }
