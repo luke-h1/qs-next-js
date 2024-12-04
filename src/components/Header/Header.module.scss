@@ -1,0 +1,24 @@
+.header {
+  position: sticky;
+  align-items: center;
+  top: 0px;
+  display: flex;
+  justify-content: space-between;
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid #ccc;
+}
+
+.navbar {
+  align-items: center;
+  ul {
+    list-style: none;
+    li {
+      a {
+        &:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}

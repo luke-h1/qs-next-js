@@ -1,0 +1,14 @@
+.skipLink {
+  height: 30px;
+  padding: 8px;
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px); /* Hide off-screen */
+  transform: translateY(-100%);
+  overflow: hidden; /* Ensure it's not visible */
+
+  &:focus {
+    clip: auto; /* Make it visible when focused */
+    transform: translate(0%);
+    overflow: visible;
+  }
+}

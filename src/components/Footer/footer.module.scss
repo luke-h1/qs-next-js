@@ -1,0 +1,26 @@
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: 000;
+  text-align: center;
+}
+
+.links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: inline-block;
+    margin: 0 10px;
+    font-weight: 500;
+    transition: color 0.2s ease-out;
+
+    &:hover,
+    &:focus {
+      color: #007bff;
+    }
+  }
+}
